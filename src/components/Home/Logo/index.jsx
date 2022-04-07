@@ -1,7 +1,7 @@
 import gsap from 'gsap-trial'
 import React, { useRef, useEffect } from 'react'
 import LogoS from '../../../assets/images/logo-s.png'
-import { DrawSVGPlugin } from 'gsap-trial/dist/DrawSVGPlugin'
+// import { DrawSVGPlugin } from 'gsap-trial/dist/DrawSVGPlugin'
 
 const Logo = () => {
   const backgroundRef = useRef()
@@ -9,17 +9,22 @@ const Logo = () => {
   const solidLogoRef = useRef()
 
   useEffect(() => {
-    gsap.registerPlugin(DrawSVGPlugin)
-    gsap
-      .timeline()
-      .to(backgroundRef.current, {
-        duration: 1,
-        opacity: 1,
-      })
-      .from(outlineLogoRef.current, {
-        drawSVG: 0,
-        duration: 20,
-      })
+    // gsap.registerPlugin(DrawSVGPlugin)
+    // gsap.timeline().to(backgroundRef.current, {
+    //   duration: 1,
+    //   opacity: 1,
+    // })
+    // .from(outlineLogoRef.current, {
+    //   drawSVG: 0,
+    //   duration: 20,
+    // })
+
+    gsap.to(backgroundRef.current, {
+      duration: 1,
+      opacity: 1,
+    })
+
+    $('#mysvg').drawsvg({ duration: 10000 }).drawsvg('animate')
 
     gsap.fromTo(
       solidLogoRef.current,
@@ -28,7 +33,7 @@ const Logo = () => {
       },
       {
         opacity: 1,
-        delay: 5,
+        delay: 4,
         duration: 4,
       }
     )
@@ -44,6 +49,7 @@ const Logo = () => {
         version="1.0"
         viewBox="0 0 559 897"
         xmlns="http://www.w3.org/2000/svg"
+        id="mysvg"
       >
         <g
           className="svg-container"
