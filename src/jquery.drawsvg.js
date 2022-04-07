@@ -1,125 +1,99 @@
-(function(factory) {
-  /* global define */
-  if ( typeof define === 'function' && define.amd ) {
-    define(['jquery'], factory);
-  } else if ( typeof module === 'object' && module.exports ) {
-    // Node/CommonJS
-    module.exports = function( root, jQuery ) {
-      if ( jQuery === undefined ) {
-        if ( typeof window !== 'undefined' ) {
-          jQuery = require('jquery');
-        } else {
-          jQuery = require('jquery')(root);
-        }
+/*! jQuery DrawSVG v1.1.0 (2016-10-05) - git.io/vGFa5 - Copyright (c) 2016 Leonardo Santos - MIT License */
+!(function (t) {
+  'function' == typeof define && define.amd
+    ? define(['jquery'], t)
+    : 'object' == typeof module && module.exports
+    ? (module.exports = function (e, n) {
+        return (
+          void 0 === n &&
+            (n =
+              'undefined' != typeof window
+                ? require('jquery')
+                : require('jquery')(e)),
+          t(n),
+          n
+        )
+      })
+    : t(jQuery)
+})(function (t) {
+  'use strict'
+  var e = 'drawsvg',
+    n = {
+      duration: 1e3,
+      stagger: 200,
+      easing: 'swing',
+      reverse: !1,
+      callback: t.noop,
+    },
+    a = (function () {
+      var a = function (a, o) {
+        var i = this,
+          r = t.extend(n, o)
+        ;(i.$elm = t(a)),
+          i.$elm.is('svg') &&
+            ((i.options = r),
+            (i.$paths = i.$elm.find('path')),
+            (i.totalDuration = r.duration + r.stagger * i.$paths.length),
+            (i.duration = r.duration / i.totalDuration),
+            i.$paths.each(function (t, e) {
+              var n = e.getTotalLength()
+              ;(e.pathLen = n),
+                (e.delay = (r.stagger * t) / i.totalDuration),
+                (e.style.strokeDasharray = [n, n].join(' ')),
+                (e.style.strokeDashoffset = n)
+            }),
+            i.$elm.attr('class', function (t, n) {
+              return [n, e + '-initialized'].join(' ')
+            }))
       }
-      factory(jQuery);
-      return jQuery;
-    };
-  } else {
-    // Browser globals
-    factory(jQuery);
+      return (
+        (a.prototype.getVal = function (e, n) {
+          return 1 - t.easing[n](e, e, 0, 1, 1)
+        }),
+        (a.prototype.progress = function (t) {
+          var e = this,
+            n = e.options,
+            a = e.duration
+          e.$paths.each(function (o, i) {
+            var r = i.style
+            if (1 === t) r.strokeDashoffset = 0
+            else if (0 === t) r.strokeDashoffset = i.pathLen + 'px'
+            else if (t >= i.delay && t <= a + i.delay) {
+              var s = (t - i.delay) / a
+              r.strokeDashoffset =
+                e.getVal(s, n.easing) * i.pathLen * (n.reverse ? -1 : 1) + 'px'
+            }
+          })
+        }),
+        (a.prototype.animate = function () {
+          var n = this
+          n.$elm.attr('class', function (t, n) {
+            return [n, e + '-animating'].join(' ')
+          }),
+            t({ len: 0 }).animate(
+              { len: 1 },
+              {
+                easing: 'linear',
+                duration: n.totalDuration,
+                step: function (t, e) {
+                  n.progress.call(n, t / e.end)
+                },
+                complete: function () {
+                  n.options.callback.call(this),
+                    n.$elm.attr('class', function (t, n) {
+                      return n.replace(e + '-animating', '')
+                    })
+                },
+              }
+            )
+        }),
+        a
+      )
+    })()
+  t.fn[e] = function (n, o) {
+    return this.each(function () {
+      var i = t.data(this, e)
+      i && '' + n === n && i[n] ? i[n](o) : t.data(this, e, new a(this, n))
+    })
   }
-}(function($) {
-  'use strict';
-
-  var pluginName = 'drawsvg',
-      defaults = {
-        duration: 1000,
-        stagger: 200,
-        easing: 'swing',
-        reverse: false,
-        callback: $.noop
-      },
-      DrawSvg = (function() {
-        var fn = function fn(elm, options) {
-          var _this = this,
-              opts = $.extend(defaults, options);
-
-          _this.$elm = $(elm);
-
-          if ( !_this.$elm.is('svg') )
-            return;
-
-          _this.options = opts;
-          _this.$paths = _this.$elm.find('path');
-
-          _this.totalDuration = opts.duration + (opts.stagger * _this.$paths.length);
-          _this.duration = opts.duration / _this.totalDuration;
-
-          _this.$paths.each(function(index, elm) {
-            var pathLength = elm.getTotalLength();
-
-            elm.pathLen = pathLength;
-            elm.delay = (opts.stagger * index) / _this.totalDuration;
-            elm.style.strokeDasharray = [pathLength, pathLength].join(' ');
-            elm.style.strokeDashoffset = pathLength;
-          });
-
-          _this.$elm.attr('class', function(index, classNames) {
-            return [classNames, pluginName + '-initialized'].join(' ');
-          });
-        };
-
-        fn.prototype.getVal = function(p, easing) {
-          return 1 - $.easing[easing](p, p, 0, 1, 1);
-        };
-
-        fn.prototype.progress = function progress(prog) {
-          var _this = this,
-              opts = _this.options,
-              duration = _this.duration;
-
-          _this.$paths.each(function(index, elm) {
-            var elmStyle = elm.style;
-
-            if ( prog === 1 ) {
-              elmStyle.strokeDashoffset = 0;
-            } else if ( prog === 0 ) {
-              elmStyle.strokeDashoffset = elm.pathLen + 'px';
-            } else if ( prog >= elm.delay && prog <= duration + elm.delay ) {
-              var p = ((prog - elm.delay) / duration);
-              elmStyle.strokeDashoffset = ((_this.getVal(p, opts.easing) * elm.pathLen) * (opts.reverse ? -1 : 1)) + 'px';
-            }
-          });
-        };
-
-        fn.prototype.animate = function animate() {
-          var _this = this;
-
-          _this.$elm.attr('class', function(index, classNames) {
-            return [classNames, pluginName + '-animating'].join(' ');
-          });
-
-          $({ len: 0 }).animate({
-            len: 1
-          }, {
-            easing: 'linear',
-            duration: _this.totalDuration,
-            step: function(now, fx) {
-              _this.progress.call(_this, now / fx.end);
-            },
-            complete: function() {
-              _this.options.callback.call(this);
-
-              _this.$elm.attr('class', function(index, classNames) {
-                return classNames.replace(pluginName + '-animating', '');
-              });
-            }
-          });
-        };
-
-        return fn;
-      })();
-
-  // A really lightweight plugin wrapper around the constructor,
-  // preventing against multiple instantiations
-  $.fn[pluginName] = function(method, args) {
-    return this.each(function() {
-      var data = $.data(this, pluginName);
-
-      ( data && ''+method === method && data[method] ) ?
-        data[method](args) :
-        $.data(this, pluginName, new DrawSvg(this, method));
-    });
-  };
-}));
+})
