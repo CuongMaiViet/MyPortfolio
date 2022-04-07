@@ -1,7 +1,6 @@
-import gsap from 'gsap-trial'
 import React, { useRef, useEffect } from 'react'
 import LogoS from '../../../assets/images/logo-s.png'
-// import { DrawSVGPlugin } from 'gsap-trial/dist/DrawSVGPlugin'
+import anime from 'animejs/lib/anime.es.js'
 
 const Logo = () => {
   const backgroundRef = useRef()
@@ -9,34 +8,36 @@ const Logo = () => {
   const solidLogoRef = useRef()
 
   useEffect(() => {
-    // gsap.registerPlugin(DrawSVGPlugin)
-    // gsap.timeline().to(backgroundRef.current, {
-    //   duration: 1,
-    //   opacity: 1,
-    // })
-    // .from(outlineLogoRef.current, {
-    //   drawSVG: 0,
-    //   duration: 20,
-    // })
-
-    gsap.to(backgroundRef.current, {
-      duration: 1,
-      opacity: 1,
-    })
-
-    $('#mysvg').drawsvg({ duration: 10000 }).drawsvg('animate')
-
-    gsap.fromTo(
-      solidLogoRef.current,
-      {
-        opacity: 0,
-      },
-      {
+    anime
+      .timeline()
+      .add({
+        targets: backgroundRef.current,
+        duration: 1000,
         opacity: 1,
-        delay: 4,
-        duration: 4,
-      }
-    )
+      })
+      .add({
+        targets: outlineLogoRef.current,
+        strokeDashoffset: [anime.setDashoffset, 0],
+        easing: 'easeInOutQuad',
+        duration: 8000,
+      })
+      .add(
+        {
+          targets: solidLogoRef.current,
+          opacity: 1,
+          easing: 'linear',
+          duration: 2000,
+        },
+        '-=4800'
+      )
+
+    // anime({
+    //   targets: solidLogoRef.current,
+    //   opacity: 1,
+    //   easing: 'linear',
+    //   duration: 3000,
+    //   delay: 4500,
+    // })
   }, [])
 
   return (
