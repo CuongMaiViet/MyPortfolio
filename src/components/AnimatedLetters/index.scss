@@ -1,4 +1,7 @@
 @use '../../App.scss' as *;
+// @mixin random-bgr() {
+//   color: rgb(random(255), random(255), random(255));
+// }
 
 .text-animate {
   display: inline-block;
@@ -8,14 +11,16 @@
 }
 
 .text-animate-hover {
+  // $random: random(100);
   min-width: 10px;
   display: inline-block;
   animation-fill-mode: both;
+  animation: rubberBand 1s;
   cursor: pointer;
 
   &:hover {
-    animation: rubberBand 1s;
-    color: $primary-color;
+    color: $secondary-color;
+    animation: bounceIn 1s 1s forwards;
   }
 }
 

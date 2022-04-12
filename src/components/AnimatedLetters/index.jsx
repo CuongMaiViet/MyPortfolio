@@ -1,14 +1,23 @@
 import './index.scss'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
-const AnimatedLetters = ({ letterClass, strArray, idx }) => {
+const AnimatedLetters = ({ str, idx }) => {
+  const [letterClass, setLetterClass] = useState('text-animate')
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLetterClass('text-animate-hover')
+    }, 4500)
+  }, [])
+
   return (
     <span>
-      {strArray.map((char, i) => (
-        <span key={char + i} className={`${letterClass} _${i + idx}`}>
-          {char}
-        </span>
-      ))}
+      {str &&
+        str.split('').map((char, i) => (
+          <span key={char + i} className={`${letterClass} _${i + idx}`}>
+            {char}
+          </span>
+        ))}
     </span>
   )
 }

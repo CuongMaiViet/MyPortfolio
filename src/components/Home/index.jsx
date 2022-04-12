@@ -1,50 +1,37 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import LogoS from '../../assets/images/logo-s.png'
+import LogoS from '../../assets/images/logo-c.png'
 import AnimatedLetters from '../AnimatedLetters'
-import sources from '../sources'
 import Logo from './Logo'
 
+const stringArray = ['u0ng', 'hill', 'reative', 'urios']
+
 const Home = () => {
-  const [letterClass, setLetterClass] = useState('text-animate')
-  const nameArray = sources.nameArray
-  const jobArray = sources.jobArray
+  const [count, setCount] = useState(0)
+  const [string, setString] = useState(stringArray[0])
 
   useEffect(() => {
     setTimeout(() => {
-      setLetterClass('text-animate-hover')
-    }, 4000)
-  }, [])
+      count < stringArray.length - 1
+        ? setCount((count) => count + 1)
+        : setCount(0)
+      setString(stringArray[count])
+    }, 4500)
+  }, [count])
 
   return (
     <div className="container home-page">
       <div className="text-zone">
         <h1>
-          <AnimatedLetters
-            letterClass={letterClass}
-            strArray={['H', 'i', ',']}
-            idx={9}
-          />
+          <AnimatedLetters str="Hi," idx={9} />
           <br />
-          <AnimatedLetters
-            letterClass={letterClass}
-            strArray={['I', "'", 'm']}
-            idx={12}
-          />
+          <AnimatedLetters str="I'm" idx={12} />
 
           <img src={LogoS} alt="developer" />
 
-          <AnimatedLetters
-            letterClass={letterClass}
-            strArray={nameArray}
-            idx={15}
-          />
+          <AnimatedLetters str={string} idx={15} />
           <br />
-          <AnimatedLetters
-            letterClass={letterClass}
-            strArray={jobArray}
-            idx={20}
-          />
+          <AnimatedLetters str="Web developer" idx={19} />
         </h1>
 
         <h2>Frontend Developer - UI/UX Designer</h2>
@@ -54,6 +41,7 @@ const Home = () => {
         </Link>
       </div>
 
+      <button onClick={() => setCount((count) => count + 1)}>click me</button>
       <Logo />
     </div>
   )
