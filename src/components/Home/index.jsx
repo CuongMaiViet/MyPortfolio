@@ -4,7 +4,7 @@ import LogoS from '../../assets/images/logo-c.png'
 import AnimatedLetters from '../AnimatedLetters'
 import Logo from './Logo'
 
-const stringArray = ['u0ng', 'hill', 'reative', 'urios']
+const stringArray = ['u0ng', 'hill', 'urios', 'reative']
 
 const Home = () => {
   const [count, setCount] = useState(0)
