@@ -19,7 +19,7 @@
   cursor: pointer;
 
   &:hover {
-    color: $secondary-color;
+    color: $error-color;
     animation: bounceIn 1s 1s forwards;
   }
 }

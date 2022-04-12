@@ -20,7 +20,8 @@
     "react-leaflet": "^3.2.5",
     "react-loaders": "^3.0.1",
     "react-router-dom": "^6.3.0",
-    "sass": "^1.49.11"
+    "sass": "^1.49.11",
+    "three": "^0.139.2"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.7",

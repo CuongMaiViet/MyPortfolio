@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import AnimatedLetters from '../AnimatedLetters'
 import anime from 'animejs/lib/anime.es.js'
+import Canvas from './Canvas'
 
 const About = () => {
   useEffect(() => {
@@ -77,15 +78,19 @@ const About = () => {
     //   // easing: 'spring',
     // })
   }, [])
+
+  useEffect(() => {
+    new Canvas(document.querySelector('canvas.webgl__right'))
+  }, [])
   return (
     <div className="container about-page">
       <div className="text-zone">
         {/* <div className="about-me"> */}
-          <h1>
-            <AnimatedLetters str="ABOUT ME" idx={15} />
-          </h1>
+        <h1>
+          <AnimatedLetters str="About me" idx={15} />
+        </h1>
 
-          {/* <div class="message">
+        {/* <div class="message">
             <div class="word1">close</div>
             <div class="word2">code</div>
             <div class="word3">creating</div>
@@ -118,25 +123,9 @@ const About = () => {
             </span>
           </p>
         </div>
-
-        {/* <p className="hide">
-          <span className="text">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iusto,
-            aliquid ut dicta in beatae ratione. Sequi ratione accusamus debitis,
-            libero blanditiis dolorem aperiam eveniet dicta tempora. Sunt
-            blanditiis delectus harum.
-          </span>
-        </p>
-
-        <p className="hide">
-          <span className="text">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iusto,
-            aliquid ut dicta in beatae ratione. Sequi ratione accusamus debitis,
-            libero blanditiis dolorem aperiam eveniet dicta tempora. Sunt
-            blanditiis delectus harum.
-          </span>
-        </p> */}
       </div>
+
+      <canvas className="webgl__right"></canvas>
     </div>
   )
 }

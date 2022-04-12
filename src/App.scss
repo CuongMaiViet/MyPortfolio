@@ -1,5 +1,8 @@
-$primary-color: #b4f816;
-$secondary-color: #f81644;
+$primary-color: #1877f2;
+$error-color: #ff0000;
+$primary-light: #1da1f2;
+$green-color: #25d366;
+$purplr-light: #c32aa3;
 $tag-color: #ffd700;
 
 @import url('https://fonts.googleapis.com/css2?family=La+Belle+Aurore&display=swap');
@@ -21,6 +24,9 @@ h1 {
 
 // Sidebar
 @import './components/Sidebar/index.scss';
+
+// Socialbar
+@import './components/Sidebar/SocialBar/index.scss';
 
 // Layout
 @import './components/Layout/index.scss';

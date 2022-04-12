@@ -36,12 +36,15 @@ const Home = () => {
 
         <h2>Frontend Developer - UI/UX Designer</h2>
 
-        <Link to={'/contact'} className="flat-button">
-          CONTACT ME
+        <Link
+          to={'/contact'}
+          className="flat__button"
+          style={{ '--btn-clr': '#ff0000' }}
+        >
+          <span>contact me</span>
         </Link>
       </div>
 
-      <button onClick={() => setCount((count) => count + 1)}>click me</button>
       <Logo />
     </div>
   )

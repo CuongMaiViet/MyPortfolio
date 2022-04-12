@@ -9,7 +9,7 @@
   opacity: 0.5;
   position: absolute;
   bottom: 0;
-  left: 120px;
+  left: 150px;
   font-size: 18px;
   font-family: 'La Belle Aurore';
 }
@@ -29,9 +29,83 @@
   position: absolute;
   opacity: 0;
   top: 5%;
+  // left: 13%;
   margin: 0 auto;
   z-index: 1;
   transform-style: preserve-3d;
   animation: fadeIn 1s forwards;
   animation-delay: 1s;
+  *[class$='__right'] {
+    // z-index: 0;
+    position: absolute;
+    top: 0;
+    right: 15%;
+    bottom: 0;
+    left: auto;
+    margin: auto;
+  }
+  a[class$='__button'] {
+    $--btn-clr: if(var(--btn-clr), var(--btn-clr), $primary-color);
+    position: relative;
+    display: inline-block;
+    padding: 15px 30px;
+    border: 2px solid $--btn-clr;
+    margin-top: 50px;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 2px;
+    color: $--btn-clr;
+    -webkit-box-reflect: below 0px linear-gradient(transparent, #0002);
+    transition: 0.5s;
+    animation: flipInX 1s 4.5s backwards;
+    span {
+      position: relative;
+      z-index: 100;
+    }
+    &:hover {
+      transition-delay: 1.5s;
+      color: #222;
+      box-shadow: 0 0 5px $--btn-clr, 0 0 10px $--btn-clr, 0 0 20px $--btn-clr,
+        0 0 40px $--btn-clr, 0 0 80px $--btn-clr;
+    }
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 2px;
+      background: $--btn-clr;
+      transition: width 0.5s, left 0.5s, right 0.5s, height 0.5s,
+        box-shadow 0.5s;
+      transition-delay: 1s, 0.5s, 0.5s, 0s, 0s;
+    }
+    &::before {
+      left: -15px;
+      box-shadow: 5px -8px 0 $--btn-clr, 5px 8px 0 $--btn-clr;
+      animation: lightSpeedInLeft 1s 5s backwards;
+    }
+    &::after {
+      right: -15px;
+      box-shadow: -5px -8px 0 $--btn-clr, -5px 8px 0 $--btn-clr;
+      animation: lightSpeedInRight 1s 5s backwards;
+    }
+
+    &:hover::before {
+      width: 60%;
+      height: 105%;
+      left: -2px;
+      box-shadow: 5px 0 0 $--btn-clr;
+      transition-delay: 0s, 0.5s, 0.5s, 1s, 1s;
+    }
+    &:hover::after {
+      width: 60%;
+      height: 105%;
+      right: -2px;
+      box-shadow: -5px 0 0 $--btn-clr;
+      transition-delay: 0s, 0.5s, 0.5s, 1s, 1s;
+    }
+  }
 }
